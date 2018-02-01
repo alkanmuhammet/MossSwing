@@ -534,9 +534,14 @@ public class MainFormFX extends javax.swing.JFrame {
     private void copyURLToFile(URL resultURL) {
         if (resultURL != null) {
             try {
-                String fileName = resultURL.getFile().substring(resultURL.getFile().lastIndexOf("/") + 1);
+                String fileName = resultURL.getFile().substring(resultURL.getFile().lastIndexOf("/") + 1) + ".html";
+                
+                File resultFile = new File("results", fileName);
+                
+                if (!resultFile.getParentFile().exists()) {
+                    resultFile.getParentFile().mkdir();
+                }
 
-                fileName += ".html";
                 FileUtils.copyURLToFile(resultURL, new File("results", fileName));
 
                 showMessageDialog("Result file(" + fileName + ") is downloaded into results folder", "Finish", 1);
@@ -669,7 +674,7 @@ public class MainFormFX extends javax.swing.JFrame {
         jFTextField_OptionM.setText(pm.getUserProperty("optionM", pm.getDefaultProperty("optionM")));
         jTextField_OptionC.setText(pm.getUserProperty("optionC", pm.getDefaultProperty("optionC")));
         jFTextField_OptionN.setText(pm.getUserProperty("optionN", pm.getDefaultProperty("optionN")));
-        
+
         if (pm.getUserProperty("isDirMode", pm.getDefaultProperty("isDirMode")).equals("true")) {
             jCheckBox_DirectoryMode.setSelected(true);
         }
