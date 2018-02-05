@@ -123,7 +123,7 @@ public class MainFormFX extends javax.swing.JFrame {
         jTextPane_Log = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Similarity Finder");
+        setTitle("MossSwing");
         setMinimumSize(new java.awt.Dimension(577, 592));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
