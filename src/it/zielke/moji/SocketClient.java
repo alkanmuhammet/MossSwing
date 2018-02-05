@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.List;
@@ -123,7 +123,7 @@ public class SocketClient {
         socket = new Socket(this.server, this.port);
         socket.setKeepAlive(true);
         out = socket.getOutputStream();
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), Charset.defaultCharset()));
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.US_ASCII));
         currentStage = Stage.AWAITING_INITIALIZATION;
     }
 
@@ -273,7 +273,7 @@ public class SocketClient {
         }
         sb.append('\n');
         try {
-            byte[] bytes = (sb.toString()).getBytes(Charset.defaultCharset());
+            byte[] bytes = (sb.toString()).getBytes(StandardCharsets.US_ASCII);
             out.write(bytes);
             out.flush();
         } catch (IOException e) {
@@ -493,15 +493,16 @@ public class SocketClient {
                     "Cannot upload file. Client is either not initialized properly or the connection is already closed");
         }
         byte[] fileBytes = FileUtils.readFileToByteArray(file);
+        String filename = optD == 1 ? 
+                                    normalizeFilename(file.getAbsolutePath()).replaceAll("\\s+", "") : 
+                                    normalizeFilename(file.getName()).replaceAll("\\s+", "");
         String uploadString = String.format(Locale.ENGLISH,
                 "file %d %s %d %s\n", // format:
                 isBaseFile ? 0 : getIncSetID(), // 1. setID
                 language, // 2. language
                 fileBytes.length, // 3. size
-                optD == 1 ? 
-                        normalizeFilename(file.getAbsolutePath()).replaceAll("\\s+", "") : 
-                        file.getName().replaceAll("\\s+", "")); // 4. file path
-        out.write(uploadString.getBytes(Charset.defaultCharset()));
+                filename); // 4. file path
+        out.write(uploadString.getBytes(StandardCharsets.US_ASCII));
         out.write(fileBytes);
 
         currentStage = Stage.AWAITING_QUERY;
