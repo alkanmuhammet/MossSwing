@@ -43,7 +43,7 @@ public class SocketClient {
     private long optN = 250;
     private String optC = "";
     private URL resultURL;
-    private List<String> supportedLanguages = Arrays.asList("c", "cc", "java",
+    private List<String> supportedLanguages = Arrays.asList("c", "verilog", "cc", "java",
             "ml", "pascal", "ada", "lisp", "schema", "haskell", "fortran",
             "ascii", "vhdl", "perl", "matlab", "python", "mips", "prolog",
             "spice", "vb", "csharp", "modula2", "a8086", "javascript", "plsql");
